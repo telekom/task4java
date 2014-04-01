@@ -1,7 +1,6 @@
 package com.task4java.test;
 
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 
 import junit.framework.TestCase;
 
