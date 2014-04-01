@@ -1,6 +1,9 @@
 package com.task4java.test;
 
+import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import junit.framework.TestCase;
 
@@ -120,7 +123,7 @@ public class TaskTest extends TestCase {
             @Override
             public String call() throws Exception {
 
-                Logger.instance.d(TAG, "Thread for Task1: " + Thread.currentThread().getId());
+                Logger.instance.d(TAG, "Thread for task1: " + Thread.currentThread().getId());
                 
                 Thread.sleep(1000);
                 
@@ -146,5 +149,163 @@ public class TaskTest extends TestCase {
 
         Logger.instance.d(TAG, "End of code");
         Logger.instance.d(TAG, "Result: " + taskResult.get());
+    }
+	
+	public void testContinueWith02() throws Exception {
+
+        Logger.instance.d(TAG, "Thread Main: " + Thread.currentThread().getId());
+
+        Task<String> taskResult = TaskFactory.startNew(new Callable<Integer>() {
+
+            @Override
+            public Integer call() throws Exception {
+
+                Logger.instance.d(TAG, "Thread for task1: " + Thread.currentThread().getId());
+                
+                Thread.sleep(1000);
+                
+                return 20;
+            }
+        }).continueWith(new CallableTask<Integer, Integer>() {
+
+            @Override
+            public Integer call(Task<Integer> task) throws Exception {
+                Logger.instance.d(TAG, "Thread for step1: " + Thread.currentThread().getId());
+
+                return task.get() + 30;
+            }
+        }).continueWith(new CallableTask<String, Integer>() {
+
+            @Override
+            public String call(Task<Integer> task) throws Exception {
+                Logger.instance.d(TAG, "Thread for step2: " + Thread.currentThread().getId());
+
+                return task.get() + " step2";
+            }
+        });
+
+        Logger.instance.d(TAG, "End of code");
+        Logger.instance.d(TAG, "Result: " + taskResult.get());
+    }
+	
+	public void testWhenAll01() throws Exception
+    {
+        Task<String> task1 = TaskFactory.startNew(new Callable<String>(){
+
+            @Override
+            public String call() throws Exception
+            {
+                Thread.sleep(2000);
+                return "Task1 ";
+            }});
+        
+        Task<String> task2 = TaskFactory.startNew(new Callable<String>(){
+
+            @Override
+            public String call() throws Exception
+            {
+                Thread.sleep(3000);
+                return "Task2 ";
+            }});
+        
+        Task<String> task3 = TaskFactory.startNew(new Callable<String>(){
+
+            @Override
+            public String call() throws Exception
+            {
+                Thread.sleep(5000);
+                return "Task3 ";
+            }});
+               
+        @SuppressWarnings("unchecked")
+		Task<List<Task<String>>> taskResult = Task.whenAll(task1, task2, task3);
+                
+        Logger.instance.d(TAG, "End of code");
+        Logger.instance.d(TAG, "Result: " + taskResult.get());
+    }
+	
+	public void testWhenAll02() throws Exception
+    {
+        ExecutorService service = Executors.newSingleThreadExecutor();
+        
+        Task<String> task1 = TaskFactory.startNew(new Callable<String>(){
+
+            @Override
+            public String call() throws Exception
+            {
+                Thread.sleep(2000);
+                return "Task1 ";
+            }}, service);
+        
+        Task<String> task2 = TaskFactory.startNew(new Callable<String>(){
+
+            @Override
+            public String call() throws Exception
+            {
+                Thread.sleep(3000);
+                return "Task2 ";
+            }}, service);
+        
+        Task<String> task3 = TaskFactory.startNew(new Callable<String>(){
+
+            @Override
+            public String call() throws Exception
+            {
+                Thread.sleep(5000);
+                return "Task3 ";
+            }}, service);
+               
+        @SuppressWarnings("unchecked")
+		Task<List<Task<String>>> taskResult = Task.whenAll(task1, task2, task3);
+                
+        Logger.instance.d(TAG, "End of code");
+        Logger.instance.d(TAG, "Result: " + taskResult.get());
+    }
+	
+	public void testWhenAll03() throws Exception
+    {
+        Task<String> task1 = TaskFactory.startNew(new Callable<String>(){
+
+            @Override
+            public String call() throws Exception
+            {
+                Thread.sleep(2000);
+                return "Task1 ";
+            }});
+        
+        Task<String> task2 = TaskFactory.startNew(new Callable<String>(){
+
+            @Override
+            public String call() throws Exception
+            {
+                Thread.sleep(3000);
+                return "Task2 ";
+            }});
+        
+        Task<String> task3 = TaskFactory.startNew(new Callable<String>(){
+
+            @Override
+            public String call() throws Exception
+            {
+                Thread.sleep(5000);
+                throw new Exception("Exception!");
+            }});
+               
+        @SuppressWarnings("unchecked")
+		Task<List<Task<String>>> taskResult = Task.whenAll(task1, task2, task3);
+                
+        Logger.instance.d(TAG, "End of code");
+        
+        Logger.instance.d(TAG, "Result: " + taskResult.get().get(0).get());
+        Logger.instance.d(TAG, "Result: " + taskResult.get().get(1).get());
+        
+        try
+        {
+            Logger.instance.d(TAG, "Result: " + taskResult.get().get(2).get());
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 }
