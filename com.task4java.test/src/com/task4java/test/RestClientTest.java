@@ -13,6 +13,7 @@ import org.junit.Assert;
 
 import com.task4java.KeyValuePair;
 import com.task4java.http.HttpStatusCodes;
+import com.task4java.http.client.HttpStringContent;
 import com.task4java.http.client.RestClient;
 import com.task4java.http.client.RestResponse;
 import com.task4java.test.common.InitSetup;
@@ -77,6 +78,16 @@ public class RestClientTest extends TestCase {
 		params.add(new KeyValuePair("q", "java"));
 		
 		response = RestClient.instance.get(new URL("http://www.google.com/"), null, params);
+		Assert.assertTrue(response.getStatusCode() == HttpStatusCodes.OK);
+	}
+	
+	public void testRestClientSimple02() throws MalformedURLException, IOException, URISyntaxException
+	{
+		RestResponse response;
+		
+		HttpStringContent content = new HttpStringContent("Testdata", "UTF-8");
+		
+		response = RestClient.instance.post(new URL("http://www.bing.com/"), null, null, content);
 		Assert.assertTrue(response.getStatusCode() == HttpStatusCodes.OK);
 	}
 }
