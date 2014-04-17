@@ -14,6 +14,8 @@ The key concept is based on JS promises (e.g. [when.js](https://github.com/cujoj
 Usage
 -----
 
+The following code will show the execution of three code blocks in series.
+
 ```Java
 Task<String> taskResult = TaskFactory.startNew(new Callable<String>() {
 
@@ -51,7 +53,7 @@ Task<String> taskResult = TaskFactory.startNew(new Callable<String>() {
 
 // blocks until the result is available
 System.out.println(taskResult.get());
-```Java
+```
 
 License
 -------
