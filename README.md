@@ -57,6 +57,15 @@ Task<String> taskResult = TaskFactory.startNew(new Callable<String>() {
 System.out.println(taskResult.get());
 ```
 
+To change the executor of the tasks the `continueWith` method is overloaded with the following signatures:
+
+```Java
+public <VNew> Task<VNew> continueWith(CallableTask<VNew, V> callableTask);
+public <VNew> Task<VNew> continueWith(CallableTask<VNew, V> callableTask, Executor executor)
+```
+
+Hence each [Executor](http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Executor.html) can be used to start the tasks. The [TaskFactory](/com.task4java/src/com/task4java/util/concurrent/TaskFactory.java) class contains some executor services but you can create your own executor if necessary.
+
 License
 -------
 
