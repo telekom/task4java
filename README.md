@@ -11,6 +11,8 @@ task4java is a framework to compose and execute code asynchronously. Its feature
 
 The key concept is based on JS promises (e.g. [when.js](https://github.com/cujojs/when)) or [Microsoft .NET Task Parallel Library (TPL)](http://msdn.microsoft.com/de-de/library/dd460717(v=vs.110).aspx). 
 
+The major class of this framework is the [Task<V>](/com.task4java/src/com/task4java/util/concurrent/Task.java) class which is based on the Java [FutureTask<V>](http://docs.oracle.com/javase/8/docs/api/java/util/concurrent/FutureTask.html) class.
+
 Usage
 -----
 
