@@ -51,7 +51,7 @@ Task<String> taskResult = TaskFactory.startNew(new Callable<String>() {
 
 // blocks until the result is available
 System.out.println(taskResult.get());
-```Java
+```
 
 License
 -------
