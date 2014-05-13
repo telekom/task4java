@@ -15,8 +15,16 @@ public class HandlerExecutor implements Executor {
 	private static Handler mHandler;
 	private static Thread mUiThread;
 	
-	public static void init()
-	{
+	private HandlerExecutor() {
+	}
+	
+	public static Executor getCurrent() {
+	
+		return new HandlerExecutor();
+	}
+		
+	public static void init() {
+		
 		mHandler = new Handler();
 		mUiThread = Thread.currentThread();
 	}

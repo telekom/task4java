@@ -4,7 +4,9 @@
  *  Filename: MainActivity.java
  */
 
-package com.task4java.android.examples;
+package com.task4java.android.examples.activity;
+
+import com.task4java.android.examples.R;
 
 import android.app.Activity;
 import android.app.Fragment;
