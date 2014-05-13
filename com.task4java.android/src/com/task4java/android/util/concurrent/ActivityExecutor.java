@@ -8,13 +8,22 @@ package com.task4java.android.util.concurrent;
 
 import java.util.concurrent.Executor;
 
+import android.app.Activity;
+
 public class ActivityExecutor implements Executor {
 
+	private Activity activity;
+	
+	public ActivityExecutor(Activity activity) {
+		this.activity = activity;
+	}
+	
 	@Override
 	public void execute(Runnable command) {
 
-		// TODO Auto-generated method stub
-
+		if (activity != null)
+		{
+			activity.runOnUiThread(command);
+		}
 	}
-
 }
