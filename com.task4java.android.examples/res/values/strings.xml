@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">task4java Android Examples</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="buttonCaption">Button</string>
 
 </resources>
