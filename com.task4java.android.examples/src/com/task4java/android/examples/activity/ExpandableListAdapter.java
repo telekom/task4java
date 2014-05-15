@@ -31,7 +31,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 	}
 
 	@Override
-	public Object getChild(int groupPosition, int childPosititon) {
+	public MainMenuItem getChild(int groupPosition, int childPosititon) {
 
 		return this._listItems.get(groupPosition).items.get(childPosititon);
 	}
@@ -65,7 +65,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 	}
 
 	@Override
-	public Object getGroup(int groupPosition) {
+	public MainMenuItemGroup getGroup(int groupPosition) {
 
 		return this._listItems.get(groupPosition);
 	}

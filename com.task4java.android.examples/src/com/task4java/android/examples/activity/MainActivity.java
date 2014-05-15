@@ -8,11 +8,13 @@ package com.task4java.android.examples.activity;
 
 import java.util.concurrent.ExecutionException;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.LinearLayout;
 
 import com.task4java.android.activity.BaseActivity;
@@ -20,6 +22,7 @@ import com.task4java.android.annotation.Annotations.ViewMapping;
 import com.task4java.android.examples.R;
 import com.task4java.android.util.concurrent.HandlerExecutor;
 import com.task4java.data.frontend.ApplicationClient;
+import com.task4java.data.frontend.model.MainMenuItem;
 import com.task4java.data.frontend.model.MainMenuItemGroupList;
 import com.task4java.util.concurrent.CallableTask;
 import com.task4java.util.concurrent.Task;
@@ -45,7 +48,19 @@ public class MainActivity extends BaseActivity {
 
 		if (expandableListView != null) {
 
-			// TODO
+			expandableListView.setOnChildClickListener(new OnChildClickListener() {
+				
+				@Override
+				public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+				
+					MainMenuItem item = ((ExpandableListAdapter)parent.getExpandableListAdapter()).getChild(groupPosition, childPosition);
+					
+					Intent itemIntent = new Intent(MainActivity.this, item.targetClass);
+					startActivity(itemIntent);
+					
+					return false;
+				}
+			});
 		}
 
 		loadData();
